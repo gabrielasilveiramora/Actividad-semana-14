@@ -1,0 +1,60 @@
+html {
+  background-color: rgb(12, 12, 65);
+}
+
+main {
+  min-height: calc(100vh - 160px);
+  color: bisque;
+  background-color: rgb(12, 12, 65);
+  font-family: 'Montserrat', 'Serif';
+}
+
+.topSection {
+  width: 80%;
+  margin: auto;
+}
+
+.h1 {
+  text-wrap: nowrap;
+  margin: 3em auto 0;
+  width: fit-content;
+}
+
+#contenedor {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.article {
+  width: 30%;
+  height: fit-content;
+  padding: 1.5em;
+  margin: 1em;
+  border: 1px solid black;
+  border-radius: 1em;
+  background-color: rgba(145, 199, 249, 0.407);
+}
+
+.nasa-image {
+  width: 100%;
+}
+
+.nasa-title {
+  padding: .5em;
+  background-color: rgba(0, 0, 255, 0.285);
+  font-size: 1.3em;
+  text-align: center;
+}
+
+.nasa-description {
+  height: 15em;
+  overflow-y: auto;/
+}
+
+.nasa-description,
+.nasa-date,
+.nasa-center {
+  font-size: calc(.5rem + .3vw);
+  text-align: center;
+  margin: .5em;
+}
