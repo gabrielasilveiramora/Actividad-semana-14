@@ -7,23 +7,23 @@
   <title>Buscador de imágenes de la NASA</title>
 
   <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
   <main>
-    <section class="topSection">
-      <h1 class="h1">Buscador de imágenes de la NASA</h1>
-      <input type="search" class="form-control" name="buscar" id="inputBuscar" placeholder="Ej.: JUPITER">
-      <button class="btn btn-primary my-2" id="btnBuscar">Buscar imágenes</button>
-    </section>
+    <div class="text-center container">
+      <div class="row py-lg-3">
+        <div class="col-lg-6 col-md-8 mx-auto">
+          <h1 class="fw-light">Buscador de imágenes de la NASA</h1>
+          <input type="search" class="form-control" name="buscar" id="inputBuscar" placeholder="Ej.: JUPITER">
+          <button class="btn btn-primary my-2" id="btnBuscar">Buscar imágenes</button>
+        </div>
+      </div>
+    </div>
 
     <div class="container">
-      <div id="contenedor">
+      <div id="contenedor" class="row">
       </div>
     </div>
   </main>

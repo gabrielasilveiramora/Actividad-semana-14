@@ -1,79 +1,43 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.getElementById('btnBuscar').addEventListener('click', async () => {
+    const query = document.getElementById('inputBuscar').value.trim();
+    if (query) {
+        const url = `https://images-api.nasa.gov/search?q=${encodeURIComponent(query)}`;
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            mostrarItems(data.collection.items);
+        } catch (error) {
+            console.error('Error al realizar la búsqueda:', error);
+        }
+    }
+});
 
-    const getData = (query = "") => {
-        const baseURL = 'https://images-api.nasa.gov/search';
-        const url = `${baseURL}?q=${encodeURIComponent(query)}`;
-        
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                if (data && data.collection && data.collection.items) {
-                    showData(data.collection.items);
-                } else {
-                    console.error('No data found for the query');
-                    clearData();
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-                clearData();
-            });
+function mostrarItems(items) {
+    const contenedor = document.getElementById('contenedor');
+    contenedor.innerHTML = '';
+
+    if (items.length === 0) {
+        contenedor.innerHTML = '<p>No se encontraron resultados.</p>';
+        return;
     }
 
-    const searchData = () => {
-        let searchBar = document.querySelector('#inputBuscar');
-        let searchButton = document.querySelector('#btnBuscar');
+    items.forEach(item => {
+        const imagen = item.links && item.links.length > 0 ? item.links[0].href : 'https://via.placeholder.com/150';
+        const { title, description = 'Sin descripción disponible', date_created } = item.data[0];
 
-        searchButton.addEventListener('click', function () {
-            const query = searchBar.value.toLowerCase();
+        const tarjeta = document.createElement('div');
+        tarjeta.classList.add("mb-4", "col-md-4");
+        tarjeta.innerHTML = `
+            <div class="card">
+                <img src="${imagen}" class="card-img-top" alt="${title}">
+                <div class="card-body">
+                    <h5 class="card-title">${title}</h5>
+                    <p class="card-text">${description}</p>
+                    <p class="card-text"><small class="text-muted">Fecha: ${new Date(date_created).toLocaleDateString()}</small></p>
+                </div>
+            </div>
+        `;
 
-            if (query.trim() !== "") {
-                getData(query);
-            } else {
-                clearData();
-            }
-        });
-    };
-
-    const fetchImageFromCollection = async (url) => {
-        try {
-            let response = await fetch(url);
-            let data = await response.json();
-            if (data && data.length > 0) {
-                return data[0]; 
-            }
-        } catch (error) {
-            console.error('Error fetching image collection:', error);
-            return null;
-        }
-    };
-
-    const showData = (data) => {
-        let contenedor = document.getElementById('contenedor');
-        contenedor.innerHTML = '';  
-    
-        data.forEach(async item => {
-            const { title, description, date_created, center } = item.data[0];
-            let article = document.createElement('article');
-            article.classList.add('nasa-item');
-
-            let imageUrl = await fetchImageFromCollection(item.href);
-            article.setAttribute('class', 'article')
-            article.innerHTML = `
-                <img src="${imageUrl ? imageUrl : ''}" alt="${title}" class="nasa-image">
-                <h2 class="nasa-title">${title}</h2>
-                <p class="nasa-description">${description}</p>
-                <p class="nasa-center">Center: ${center}</p>
-                <p class="nasa-date">Date Created: ${new Date(date_created).toLocaleDateString()}</p>
-            `;
-            contenedor.appendChild(article);
-        });
-    };
-
-    const clearData = () => {
-        let contenedor = document.getElementById('contenedor');
-        contenedor.innerHTML = '';  
-    };
-
-    searchData();
-});
+        contenedor.appendChild(tarjeta);
+    });
+}
